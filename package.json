@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "tsc && node -r module-alias/register dist/server.js",
+    "start": "node -r module-alias/register dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Muhammad M. Sayed",
