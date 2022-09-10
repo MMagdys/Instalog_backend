@@ -47,7 +47,7 @@ let EventController = class EventController extends BaseController_1.default {
                 paginateParams,
                 filter: searchString
             });
-            return ResponseUtils_1.default.send(res, 200, "Listing Successfully", this.resourceName, {
+            return ResponseUtils_1.default.send(res, 200, "listing_successfully", this.resourceName, {
                 page
             });
         });
@@ -56,10 +56,26 @@ let EventController = class EventController extends BaseController_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const userId = req.headers['authorization'];
             if (!userId) {
-                return ResponseUtils_1.default.send(res, 422, "Missing UserId header", this.resourceName, {});
+                return ResponseUtils_1.default.send(res, 422, "missing_userId_header", this.resourceName, {});
             }
             const user = yield this.userRepository.findOrCreate(userId);
             return ResponseUtils_1.default.send(res, 200, "Event log record Created", this.resourceName, {});
+        });
+    }
+    getEventDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userId = req.headers['authorization'];
+            const eventId = req.params.id;
+            if (!userId) {
+                return ResponseUtils_1.default.send(res, 422, "missing_userId_header", this.resourceName, {});
+            }
+            const retrievedEvent = yield this.eventRepository.findById(eventId);
+            if (!retrievedEvent) {
+                return ResponseUtils_1.default.send(res, 422, "unkown_eventId", this.resourceName, {});
+            }
+            return ResponseUtils_1.default.send(res, 200, "Event log record Created", this.resourceName, {
+                record: retrievedEvent
+            });
         });
     }
 };
@@ -79,6 +95,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], EventController.prototype, "create", null);
+__decorate([
+    (0, inversify_express_utils_1.httpGet)('/:id'),
+    __param(0, (0, inversify_express_utils_1.request)()),
+    __param(1, (0, inversify_express_utils_1.response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], EventController.prototype, "getEventDetails", null);
 EventController = __decorate([
     (0, inversify_express_utils_1.controller)('/v1/events'),
     __param(0, (0, inversify_1.inject)(types_1.default.IEventRepository)),

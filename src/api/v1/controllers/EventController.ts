@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { controller, httpDelete, httpGet, httpPatch, httpPost, request, response } from 'inversify-express-utils';
+import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils';
 import { inject } from 'inversify';
 
 import TYPES from '@pbb/container/types';
@@ -35,7 +35,7 @@ export default class EventController extends BaseController {
             filter: searchString
         })
 
-        return ResponseUtils.send(res, 200, "Listing Successfully", this.resourceName, {
+        return ResponseUtils.send(res, 200, "listing_successfully", this.resourceName, {
             page
         });
     }
@@ -47,7 +47,7 @@ export default class EventController extends BaseController {
         const userId = req.headers['authorization'];
 
         if(!userId) {
-            return ResponseUtils.send(res, 422, "Missing UserId header", this.resourceName, {});
+            return ResponseUtils.send(res, 422, "missing_userId_header", this.resourceName, {});
         }
         
         const user = await this.userRepository.findOrCreate(userId);
@@ -55,6 +55,29 @@ export default class EventController extends BaseController {
 
         return ResponseUtils.send(res, 200, "Event log record Created", this.resourceName, {
             
+        });
+    }
+
+
+    @httpGet('/:id')
+    public async getEventDetails(@request() req: Request, @response() res: Response) {
+
+       
+
+        const userId = req.headers['authorization'];
+        const eventId = req.params.id as string;
+
+        if(!userId) {
+            return ResponseUtils.send(res, 422, "missing_userId_header", this.resourceName, {});
+        }
+
+        const retrievedEvent = await this.eventRepository.findById(eventId);
+        if (!retrievedEvent) {
+            return ResponseUtils.send(res, 422, "unkown_eventId", this.resourceName, {});
+        }
+
+        return ResponseUtils.send(res, 200, "Event log record Created", this.resourceName, {
+            record: retrievedEvent
         });
     }
 

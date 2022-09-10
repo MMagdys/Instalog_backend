@@ -22,6 +22,32 @@ export default class EventRepository extends Repository {
     private NO_NEXT_PAGE = -1;
 
 
+    
+    public async findById(id: string) {
+
+        const record = await EventLog.findOne({
+            where: {
+                id
+            },
+            include: [
+                {
+                    model: User,
+                    as: 'actor',
+                    attributes:['id', 'name', 'group'],
+                },
+                {
+                    model: Action,
+                    as: 'action',
+                    attributes:['id', 'object', 'name']
+                },
+            ]
+        })
+
+        return record;
+    
+    }
+
+
     public async findMany(filter:any) {
 
         EventLog.findAll({
@@ -127,7 +153,7 @@ export default class EventRepository extends Repository {
                 {
                     model: Action,
                     as: 'action',
-                    attributes:['id', 'object', 'name']
+                    attributes:['id', 'name']
                 },
             ]
         })
@@ -157,7 +183,7 @@ export default class EventRepository extends Repository {
                 {
                     model: Action,
                     as: 'action',
-                    attributes:['id', 'object', 'name'],
+                    attributes:['id', 'name'],
                     where: {
                         id: macthUserIds
                     },

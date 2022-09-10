@@ -32,6 +32,28 @@ let EventRepository = class EventRepository extends Repository_1.default {
         super();
         this.NO_NEXT_PAGE = -1;
     }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const record = yield Event_1.default.findOne({
+                where: {
+                    id
+                },
+                include: [
+                    {
+                        model: User_1.default,
+                        as: 'actor',
+                        attributes: ['id', 'name', 'group'],
+                    },
+                    {
+                        model: Action_1.default,
+                        as: 'action',
+                        attributes: ['id', 'object', 'name']
+                    },
+                ]
+            });
+            return record;
+        });
+    }
     findMany(filter) {
         return __awaiter(this, void 0, void 0, function* () {
             Event_1.default.findAll({
@@ -116,7 +138,7 @@ let EventRepository = class EventRepository extends Repository_1.default {
                     {
                         model: Action_1.default,
                         as: 'action',
-                        attributes: ['id', 'object', 'name']
+                        attributes: ['id', 'name']
                     },
                 ]
             });
@@ -142,7 +164,7 @@ let EventRepository = class EventRepository extends Repository_1.default {
                     {
                         model: Action_1.default,
                         as: 'action',
-                        attributes: ['id', 'object', 'name'],
+                        attributes: ['id', 'name'],
                         where: {
                             id: macthUserIds
                         },
