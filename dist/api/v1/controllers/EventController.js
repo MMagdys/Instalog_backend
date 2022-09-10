@@ -31,18 +31,19 @@ const BaseController_1 = __importDefault(require("./BaseController"));
 const EventRepository_1 = __importDefault(require("@pbb/repositories/EventRepository"));
 const ResponseUtils_1 = __importDefault(require("@pbb/utils/ResponseUtils"));
 const UserRepository_1 = __importDefault(require("@pbb/repositories/UserRepository"));
+const EventMapper_1 = __importDefault(require("@pbb/mappers/EventMapper"));
 let EventController = class EventController extends BaseController_1.default {
-    constructor(eventRepository, userRepository) {
+    constructor(eventRepository, userRepository, eventMapper) {
         super();
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+        this.eventMapper = eventMapper;
         this.resourceName = "Events";
     }
     index(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const paginateParams = this.paginateParams(req);
             const searchString = req.query.searchString ? String(req.query.searchString).toLowerCase() : undefined;
-            console.log("event list", paginateParams, searchString);
             const page = yield this.eventRepository.paginate({
                 paginateParams,
                 filter: searchString
@@ -73,8 +74,9 @@ let EventController = class EventController extends BaseController_1.default {
             if (!retrievedEvent) {
                 return ResponseUtils_1.default.send(res, 422, "unkown_eventId", this.resourceName, {});
             }
+            const mappedEvent = this.eventMapper.toDto(retrievedEvent);
             return ResponseUtils_1.default.send(res, 200, "Event log record Created", this.resourceName, {
-                record: retrievedEvent
+                record: mappedEvent
             });
         });
     }
@@ -107,7 +109,9 @@ EventController = __decorate([
     (0, inversify_express_utils_1.controller)('/v1/events'),
     __param(0, (0, inversify_1.inject)(types_1.default.IEventRepository)),
     __param(1, (0, inversify_1.inject)(types_1.default.IUserRepository)),
+    __param(2, (0, inversify_1.inject)(types_1.default.IEventMapper)),
     __metadata("design:paramtypes", [EventRepository_1.default,
-        UserRepository_1.default])
+        UserRepository_1.default,
+        EventMapper_1.default])
 ], EventController);
 exports.default = EventController;

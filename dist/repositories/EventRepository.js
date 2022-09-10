@@ -45,6 +45,11 @@ let EventRepository = class EventRepository extends Repository_1.default {
                         attributes: ['id', 'name', 'group'],
                     },
                     {
+                        model: User_1.default,
+                        as: 'target',
+                        attributes: ['id', 'name', 'group'],
+                    },
+                    {
                         model: Action_1.default,
                         as: 'action',
                         attributes: ['id', 'object', 'name']
@@ -60,7 +65,6 @@ let EventRepository = class EventRepository extends Repository_1.default {
                 include: ['actor_id']
             })
                 .then((res) => {
-                console.log("res");
                 return res;
             })
                 .catch((err) => {

@@ -6,7 +6,6 @@ export default class ResponseUtils {
 
     public static send(res: Response, status: number, message: string, resourceName: string, data?: object) {
         
-        console.log(res.req.route.path)
         this.log(res.req as Request, message, resourceName);
         const splittedMessage = message.split(', ');
         return res.format({
@@ -50,9 +49,6 @@ export default class ResponseUtils {
             description: `${resourceName}: ${message}`,
             x_request_id: requestId
         })
-
-
-        console.log("logger", userId, userEvent)
     }
     
 }

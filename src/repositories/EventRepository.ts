@@ -22,7 +22,7 @@ export default class EventRepository extends Repository {
     private NO_NEXT_PAGE = -1;
 
 
-    
+
     public async findById(id: string) {
 
         const record = await EventLog.findOne({
@@ -33,6 +33,11 @@ export default class EventRepository extends Repository {
                 {
                     model: User,
                     as: 'actor',
+                    attributes:['id', 'name', 'group'],
+                },
+                {
+                    model: User,
+                    as: 'target',
                     attributes:['id', 'name', 'group'],
                 },
                 {
@@ -54,7 +59,6 @@ export default class EventRepository extends Repository {
             include: [ 'actor_id' ] 
         })
         .then((res: any) => {
-            console.log("res")
             return res;
         })
         .catch((err: any) => {

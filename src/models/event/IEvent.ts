@@ -12,4 +12,5 @@ export type EventAttributes =  {
     actor: any;
     target: any;
     action: any;
+    createdAt: Date;
 }

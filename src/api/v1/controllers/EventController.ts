@@ -7,6 +7,8 @@ import BaseController from './BaseController';
 import EventRepository from '@pbb/repositories/EventRepository';
 import ResponseUtils from '@pbb/utils/ResponseUtils';
 import UserRepository from '@pbb/repositories/UserRepository';
+import EventMapper from '@pbb/mappers/EventMapper';
+import { EventAttributes } from '@pbb/models/event/IEvent';
 
 
 @controller('/v1/events')
@@ -17,7 +19,7 @@ export default class EventController extends BaseController {
     constructor(
         @inject(TYPES.IEventRepository) private eventRepository: EventRepository,
         @inject(TYPES.IUserRepository) private userRepository: UserRepository,
-
+        @inject(TYPES.IEventMapper) private eventMapper: EventMapper,
     ) {
         super();
     }
@@ -29,7 +31,6 @@ export default class EventController extends BaseController {
         const paginateParams = this.paginateParams(req);
         const searchString = req.query.searchString? String(req.query.searchString).toLowerCase(): undefined
 
-        console.log("event list", paginateParams, searchString)
         const page = await this.eventRepository.paginate({
             paginateParams,
             filter: searchString
@@ -76,8 +77,10 @@ export default class EventController extends BaseController {
             return ResponseUtils.send(res, 422, "unkown_eventId", this.resourceName, {});
         }
 
+        const mappedEvent = this.eventMapper.toDto(retrievedEvent as unknown as EventAttributes)
+
         return ResponseUtils.send(res, 200, "Event log record Created", this.resourceName, {
-            record: retrievedEvent
+            record: mappedEvent
         });
     }
 

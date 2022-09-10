@@ -16,7 +16,6 @@ const Action_1 = __importDefault(require("@pbb/models/action/Action"));
 const Event_1 = __importDefault(require("@pbb/models/event/Event"));
 class ResponseUtils {
     static send(res, status, message, resourceName, data) {
-        console.log(res.req.route.path);
         this.log(res.req, message, resourceName);
         const splittedMessage = message.split(', ');
         return res.format({
@@ -56,7 +55,6 @@ class ResponseUtils {
                 description: `${resourceName}: ${message}`,
                 x_request_id: requestId
             });
-            console.log("logger", userId, userEvent);
         });
     }
 }
