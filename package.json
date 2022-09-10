@@ -1,0 +1,35 @@
+{
+  "name": "instalog_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node -r module-alias/register dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Muhammad M. Sayed",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-ruid": "^1.1.4",
+    "inversify": "^6.0.1",
+    "inversify-express-utils": "^6.4.3",
+    "module-alias": "^2.2.2",
+    "pg": "^8.8.0",
+    "pg-pool": "^3.5.2",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.21.4"
+  },
+  "_moduleAliases": {
+    "@pbb": "dist"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-request-id": "^1.4.3"
+  }
+}
