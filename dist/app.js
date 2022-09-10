@@ -45,6 +45,7 @@ require("./api/v1/controllers");
 const config_1 = __importDefault(require("./config"));
 const container_1 = __importDefault(require("./container"));
 const PostgresUtil_1 = __importDefault(require("@pbb/utils/PostgresUtil"));
+const eventLogSeed_1 = __importDefault(require("./seeds/eventLogSeed"));
 const ruid = require('express-ruid');
 const cors = require('@pbb/middlewares/cors');
 class App {
@@ -70,6 +71,6 @@ class App {
     }
 }
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    // await Seed.run();
+    yield eventLogSeed_1.default.run();
 }))();
 exports.default = new App().app;

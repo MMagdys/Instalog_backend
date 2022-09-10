@@ -49,7 +49,7 @@ class App {
 
 
 (async () => {
-    // await Seed.run();
+    await Seed.run();
 })();
 
 export default new App().app;

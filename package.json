@@ -2,12 +2,12 @@
   "name": "instalog_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "start": "node -r module-alias/register dist/server.js",
+    "start": "tsc && node -r module-alias/register dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Muhammad M. Sayed",

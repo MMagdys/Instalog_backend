@@ -4,7 +4,7 @@
     "target": "es6",
     "module": "commonjs",
     "sourceMap": false,
-    "watch": true,
+    "watch": false,
     "baseUrl": ".",
     "outDir": "dist",
     "strict": true,
