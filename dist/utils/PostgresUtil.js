@@ -41,4 +41,11 @@ class PostgresUtil {
 exports.default = PostgresUtil;
 _a = PostgresUtil;
 PostgresUtil.postgresUrl = config_1.default.postgresUrl;
-PostgresUtil.sequelize = new Sequelize(_a.postgresUrl);
+PostgresUtil.sequelize = new Sequelize(_a.postgresUrl, {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+});

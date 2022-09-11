@@ -9,7 +9,14 @@ export default class PostgresUtil {
     private static pool: any;
     
     private static postgresUrl = config.postgresUrl;
-    private static sequelize: tSequelize = new Sequelize(this.postgresUrl);
+    private static sequelize: tSequelize = new Sequelize(this.postgresUrl, {
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false
+          }
+        }
+        });
 
     public static async postgresqlSetup(): Promise<void> {
 
